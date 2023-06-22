@@ -11,7 +11,7 @@
     <el-divider></el-divider>
     <!-- 表單 -->
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
-      <el-form-item label="標籤類別名稱" prop="name" >
+      <el-form-item label="標籤類別" prop="name" >
         <el-input v-model="ruleForm.name" style="width: 400px;"></el-input>
       </el-form-item>
       <el-form-item label="排序序號" prop="sort">
@@ -52,7 +52,7 @@ export default {
     return {
       //表單
       ruleForm: {
-        name: '測試標籤類型名稱X',
+        name: '測試標籤類別',
         sort: '99',
         enable: 0 //雖然控件預設類型為布爾類型，但應該要根據服務器所設定的類型進行設定默認值
       },
@@ -78,7 +78,7 @@ export default {
           console.log('url = ' + url);
 
           /**
-           * 基於元素的變量名去拼接格式訊息不優雅，建議安裝qs
+           * 基於元素的變量名去拼接formData格式訊息並不優雅，建議安裝qs
            * npm i qs -S
            * 該API可以將Json對象訊息轉變為服務器可以接受的formData格式訊息
            */
@@ -109,9 +109,6 @@ export default {
               });
             }
           })
-
-
-          this.axios.post(url, formData);
         }
       })
     },

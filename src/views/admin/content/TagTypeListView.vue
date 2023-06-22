@@ -44,6 +44,21 @@
           :total="total">
       </el-pagination>
     </div>
+    <!-- 修改數據的表單 -->
+    <el-dialog title="編輯標籤數據" :visible.sync="editFormVisible">
+      <el-form :model="editForm" :rules="editRules" label-width="120px">
+        <el-form-item label="標籤名稱" prop="name">
+          <el-input v-model="editForm.name"></el-input>
+        </el-form-item>
+        <el-form-item label="排序序號" prop="sort">
+          <el-input v-model="editForm.sort"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="editFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="handleEdit">確 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -56,7 +71,25 @@ export default {
       //分頁相關數據
       currentPage: 0,
       pageSize: 0,
-      total: 0
+      total: 0,
+      //編輯對話框相關數據
+      editFormVisible: false,
+      editForm: {
+        id: "",
+        name: '',
+        sort: ''
+      },
+      //編輯表單規則
+      editRules: {
+        name: [
+          {required: true, message: '請輸入標籤名稱', trigger: 'blur'},
+          {pattern: /^[a-zA-Z\u4e00-\u9fa5]{2,10}$/, message: '標籤必須是2~10長度的字符組成，且不允許使用標點符號', trigger: 'blur'}
+        ],
+        sort: [
+          {required: true, message: '請輸入排序序號', trigger: 'blur'},
+          {pattern: /^(\d{1}|[1-9]{1}[0-9]{1})$/, message: '排序序號必須是0~99之間的值', trigger: 'blur'}
+        ]
+      }
     }
   },
   methods: {
@@ -66,12 +99,94 @@ export default {
       this.loadTypeList();
     },
     //切換啟用狀態
-    toggleEnable(item) {
-      alert("即將切換" + item.id + " - " + item.name + "的啟用狀態，敬請期待!")
+    toggleEnable(tableItem) {
+      let enableText = ['禁用', '啟用'];
+      let url = 'http://localhost:9080/content/tags/type/' + tableItem.id;
+      tableItem.enable == 0 ? url += '/disable' : url += '/enable';
+      console.log('url = ' + url);
+      /**
+       * 發出【根據ID查詢標籤(類別)】的請求
+       */
+      this.axios.post(url).then((response) => {
+        let jsonResult = response.data;
+        if (jsonResult.stateCode == 20000) {
+          this.$message({
+            message: enableText[tableItem.enable] + '標籤類別成功!',
+            type: 'success'
+          });
+        } else {
+          let title = '操作失敗';
+          this.$alert(jsonResult.message, title, {
+            confirmButtonText: '確定',
+            callback: action => {
+              if (jsonResult.state == 40400) {
+                this.loadTypeList();
+              }
+            }
+          });
+        }
+      });
     },
     //彈出修改對話框
-    openEditDialog(item) {
-      alert("即將編輯" + item.id + " - " + item.name + "敬請期待!")
+    openEditDialog(tableItem) {
+      let url = 'http://localhost:9080/content/tags/type/' + tableItem.id;
+      console.log('url = ' + url);
+      /**
+       * 發出【根據ID查詢標籤(類別)】的請求
+       */
+      this.axios.get(url).then((response) => {
+        let jsonResult = response.data;
+        if (jsonResult.stateCode == 20000) {
+          this.editForm = jsonResult.data;
+          this.editFormVisible = true;
+        } else {
+          let title = '操作失敗';
+          this.$alert(jsonResult.message, title, {
+            confirmButtonText: '確定',
+            callback: action => {
+              //請求完成後應該刷新頁面
+              this.loadTagList();
+            }
+          });
+        }
+      });
+    },
+    //執行修改標籤數據
+    handleEdit() {
+      let url = 'http://localhost:9080/content/tags/type/' + this.editForm.id + '/update/info';
+      console.log('url = ' + url);
+      let formData = this.qs.stringify(this.editForm);
+      console.log('formData = ' + formData);
+      /**
+       * 發出【修改標籤類別】的請求
+       */
+      this.axios.post(url, formData).then((response) => {
+        let jsonResult = response.data;
+        if (jsonResult.stateCode == 20000) {
+          this.$message({
+            message: '修改標籤成功！',
+            type: 'success'
+          });
+          this.editFormVisible = false;
+          this.loadTypeList();
+        } else if (jsonResult.stateCode == 40400) {
+          let title = '操作失敗';
+          this.$alert(jsonResult.message, title, {
+            confirmButtonText: '確定',
+            callback: action => {
+              this.editFormVisible = false;//修改完畢關閉修改頁面
+              this.loadTypeList();//修改完畢刷新標籤列表
+            }
+          });
+        } else {//通常指40900修改錯誤，此時代表更新失敗，不用刷新頁面和退出編輯頁面
+          let title = '操作失败';
+          this.$alert(jsonResult.message, title, {
+            confirmButtonText: '確定',
+            callback: action => {
+            }
+          });
+        }
+      });
     },
     //彈出刪除確認框
     openDeleteConfirm(item) {
@@ -91,7 +206,6 @@ export default {
       let url = 'http://localhost:9080/content/tags/type/list?page=' + page
       console.log('url = ' + url);
 
-
       this.axios.get(url).then((response) => {
         if (response.data.stateCode == 20000) {
           this.TagTypeListArr = response.data.data.list;
@@ -103,12 +217,14 @@ export default {
           this.$alert(response.data.message, title, {
             confirmButtonText: '確定',
             callback: action => {
+
             }
           })
         }
       })
     },
-  }, mounted() {
+  },
+  mounted() {
     this.loadTypeList()
   }
 }

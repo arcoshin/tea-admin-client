@@ -6,7 +6,7 @@ Vue.use(VueRouter)
 
 const routes = [
     {
-        path: '/',
+        path: '/',//<----- path屬性 可以視為框架中的識別標籤
         component: HomeView,
         redirect: '/admin/index',
         children: [
@@ -23,13 +23,13 @@ const routes = [
                 component: () => import('../views/admin/content/TagTypeListView.vue')
             },
             {
-                path: '/admin/content/tags/',//(切記不可以"/"開頭，否則不會自動完成拼接)
-                component: () => import('../views/admin/content/TagListView.vue')
-            },
-            {
                 path: '/admin/content/tags/add-new',//(切記不可以"/"開頭，否則不會自動完成拼接)
                 component: () => import('../views/admin/content/TagAddNewView.vue')
-            }
+            },
+            {
+                path: '/admin/content/tags/list',//(切記不可以"/"開頭，否則不會自動完成拼接)
+                component: () => import('../views/admin/content/TagListView.vue')
+            },
         ]
     },
     {

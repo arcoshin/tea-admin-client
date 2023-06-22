@@ -31,13 +31,16 @@
         <!-- 服務器端對於使否啟用屬性的規則是 1:啟用 2:關閉 因此需要在此設定控件輸出的數據類型
             :active-value="1"
             :inactive-value="0"-->
-        <el-switch
-            v-model="ruleForm.enable"
-            :active-value="1"
-            :inactive-value="0"
-            active-color="#13ce66"
-            inactive-color="#ccc">
-        </el-switch>
+        <template v-slot="scope">
+          <el-switch
+              @change="toggleEnable(scope.row)"
+              v-model="ruleForm.enable"
+              :active-value="1"
+              :inactive-value="0"
+              active-color="#13ce66"
+              inactive-color="#ccc">
+          </el-switch>
+        </template>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
@@ -82,6 +85,32 @@ export default {
         ;
   },
   methods: {
+    //切換啟用狀態
+    toggleEnable(tableItem) {let enableText = ['禁用', '啟用'];
+      let url = 'http://localhost:9080/content/tags/type/' + tableItem.id;
+      tableItem.enable == 0 ? url += '/disable' : url += '/enable';
+      console.log('url = ' + url);
+
+      this.axios.post(url).then((response) => {
+        let jsonResult = response.data;
+        if (jsonResult.stateCode == 20000) {
+          this.$message({
+            message: enableText[tableItem.enable] + '標籤成功!',
+            type: 'success'
+          });
+        } else {
+          let title = '操作失敗';
+          this.$alert(jsonResult.message, title, {
+            confirmButtonText: '確定',
+            callback: action => {
+              if (jsonResult.state == 40400) {
+                this.loadTagList();
+              }
+            }
+          });
+        }
+      });
+    },
     //提交表單
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
@@ -126,8 +155,6 @@ export default {
               });
             }
           })
-
-
           this.axios.post(url, formData);
         }
       })

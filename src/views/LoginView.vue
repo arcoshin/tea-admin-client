@@ -1,9 +1,10 @@
 <template>
   <div class="login">
     <h1 style="text-align: center;color: #fff;">用戶登入頁面</h1><br><br><br>
+    <!-- 登入表單 -->
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-      <el-form-item label="用戶名稱" prop="userName">
-        <el-input v-model="ruleForm.userName" style="width: 400px;"></el-input>
+      <el-form-item label="用戶名稱" prop="username">
+        <el-input v-model="ruleForm.username" style="width: 400px;"></el-input>
       </el-form-item>
       <el-form-item label="用戶密碼" prop="password">
         <el-input v-model="ruleForm.password" style="width: 400px;"></el-input>
@@ -33,12 +34,12 @@ export default {
     return {
       //表單
       ruleForm: {
-        userName: 'root',
+        username: 'root',
         password: '123456',
       },
       //表單規則
       rules: {
-        userName: [
+        username: [
           { required: true, message: '請輸入用戶名稱', trigger: 'blur' },
           { min: 3, max: 15, message: '長度必須在 3 到 15 個字符', trigger: 'blur' }
         ],
@@ -54,10 +55,32 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          // 暫不處理頁面，直接跳轉頁面
-          this.$router.push('/');
+          let url = 'http://localhost:9080/account/users/login';
+          console.log('url = ' + url);
+          let formData = this.qs.stringify(this.ruleForm);
+          console.log('formData = ' + formData);
+
+          this.axios.post(url, formData).then((response) => {
+            let jsonResult = response.data;
+            if (jsonResult.stateCode == 20000) {
+              this.$message({
+                message: '登入成功！',
+                type: 'success'
+              });
+              this.$router.push('/');
+            } else if (jsonResult.stateCode == 40100) {
+              this.$message.error(jsonResult.message);
+            } else {
+              let title = '操作失败';
+              this.$alert(jsonResult.message, title, {
+                confirmButtonText: '確定',
+                callback: action => {
+                }
+              });
+            }
+          });
         }
-      })
+      });
     },
     //重置表單
     resetForm(formName) {

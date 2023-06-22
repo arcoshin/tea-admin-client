@@ -17,32 +17,62 @@
               text-color="#fff"
               router
               active-text-color="#ffd04b">
-            <el-menu-item index="/tea/">
+            <el-menu-item index="/admin/index">
               <i class="el-icon-menu"></i>
               <span slot="title">首頁</span>
             </el-menu-item>
-            <el-submenu index="2">
+            <el-submenu index="/admin/index">
               <template slot="title">
                 <i class="el-icon-location"></i>
                 <span>臨時頁面</span>
               </template>
-              <el-menu-item index="/admin/content/tags/type/add-new">
-                <i class="el-icon-circle-plus"></i>
-                <span slot="title">新增標籤類別</span>
-              </el-menu-item>
-              <el-menu-item index="/admin/content/tags/type/list">
-                <i class="el-icon-circle-plus"></i>
-                <span slot="title">標籤類別列表</span>
-              </el-menu-item>
-              <el-menu-item index="/admin/content/tags/add-new">
-                <i class="el-icon-circle-plus"></i>
-                <span slot="title">新增標籤</span>
-              </el-menu-item>
-              <el-menu-item index="/admin/content/tags">
-                <i class="el-icon-circle-plus"></i>
-                <span slot="title">標籤列表</span>
-              </el-menu-item>
+              <!-- 標籤管理開始 -->
+              <el-menu-item-group>
+                <template slot="title">標籤管理</template>
+                <el-menu-item index="/admin/content/tags/type/add-new">
+                  <i class="el-icon-circle-plus"></i>
+                  <span slot="title">新增標籤類別</span>
+                </el-menu-item>
+                <el-menu-item index="/admin/content/tags/type/list">
+                  <i class="el-icon-circle-plus"></i>
+                  <span slot="title">標籤類別列表</span>
+                </el-menu-item>
+                <el-menu-item index="/admin/content/tags/add-new">
+                  <i class="el-icon-circle-plus"></i>
+                  <span slot="title">新增標籤</span>
+                </el-menu-item>
+                <el-menu-item index="/admin/content/tags/list">
+                  <i class="el-icon-circle-plus"></i>
+                  <span slot="title">標籤列表</span>
+                </el-menu-item>
+              </el-menu-item-group>
+              <!-- 標籤管理結束 -->
+              <!-- 管理員管理開始 -->
+<!--              <el-menu-item-group>-->
+<!--                <template slot="title">標籤管理</template>-->
+<!--                <el-menu-item index="/admin/content/tags/type/add-new">-->
+<!--                  <i class="el-icon-circle-plus"></i>-->
+<!--                  <span slot="title">新增標籤類別</span>-->
+<!--                </el-menu-item>-->
+<!--                <el-menu-item index="/admin/content/tags/type/list">-->
+<!--                  <i class="el-icon-circle-plus"></i>-->
+<!--                  <span slot="title">標籤類別列表</span>-->
+<!--                </el-menu-item>-->
+<!--                <el-menu-item index="/admin/content/tags/add-new">-->
+<!--                  <i class="el-icon-circle-plus"></i>-->
+<!--                  <span slot="title">新增標籤</span>-->
+<!--                </el-menu-item>-->
+<!--                <el-menu-item index="/admin/content/tags">-->
+<!--                  <i class="el-icon-circle-plus"></i>-->
+<!--                  <span slot="title">標籤列表</span>-->
+<!--                </el-menu-item>-->
+<!--              </el-menu-item-group>-->
+              <!-- 管理員管理結束 -->
             </el-submenu>
+            <el-menu-item index="/login">
+              <i class="el-icon-menu"></i>
+              <span slot="title">登入</span>
+            </el-menu-item>
           </el-menu>
         </el-aside>
         <el-main class="tea-index-main">
