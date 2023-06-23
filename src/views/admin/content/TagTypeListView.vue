@@ -19,6 +19,7 @@
           <el-switch
               @change="toggleEnable(scope.row)"
               v-model="scope.row.enable"
+              :disabled="unchangeable(scope.row.id)"
               :active-value="1"
               :inactive-value="0"
               active-color="#13ce66"
@@ -28,8 +29,10 @@
       </el-table-column>
       <el-table-column label="操作" width="150px" align="center">
         <template v-slot="scope">
-          <el-button type="primary" icon="el-icon-edit" circle @click="openEditDialog(scope.row)"></el-button>
-          <el-button type="danger" icon="el-icon-delete" circle @click="openDeleteConfirm(scope.row)"></el-button>
+          <el-button type="primary" icon="el-icon-edit" circle
+                     @click="openEditDialog(scope.row)" :disabled="unchangeable(scope.row.id)"></el-button>
+          <el-button type="danger" icon="el-icon-delete" circle
+                     @click="openDeleteConfirm(scope.row)" :disabled="unchangeable(scope.row.id)"></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -89,10 +92,14 @@ export default {
           {required: true, message: '請輸入排序序號', trigger: 'blur'},
           {pattern: /^(\d{1}|[1-9]{1}[0-9]{1})$/, message: '排序序號必須是0~99之間的值', trigger: 'blur'}
         ]
-      }
+      },
     }
   },
   methods: {
+    unchangeable(id) {
+      let changeIndex = (id == 1 ? true : false)
+      return changeIndex;
+    },
     //切換分頁
     changePage(page) {
       this.$router.replace('?page=' + page);
@@ -189,8 +196,41 @@ export default {
       });
     },
     //彈出刪除確認框
-    openDeleteConfirm(item) {
-      alert("即將刪除" + item.id + " - " + item.name + "敬請期待!")
+    openDeleteConfirm(tableItem) {
+      let message = '此操作將永久刪除【' + tableItem.name + '】標籤，是否繼續?';
+      this.$confirm(message, '提示', {
+        confirmButtonText: '確定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {//點選確認...
+        this.handleDelete(tableItem);//執行刪除標籤數據
+      }).catch(() => {//點選取消...
+      });
+    },
+    //執行刪除標籤類別數據
+    handleDelete(tableItem) {
+      let url = 'http://localhost:9080/content/tags/type/' + tableItem.id + '/delete';
+      console.log('url = ' + url);
+      /**
+       * 發出【刪除標籤】的請求
+       */
+      this.axios.post(url).then((response) => {
+        let jsonResult = response.data;
+        if (jsonResult.stateCode == 20000) {
+          this.$message({
+            message: '刪除標籤成功!',
+            type: 'success'
+          });
+          this.loadTypeList();
+        } else {
+          let title = '操作失敗';
+          this.$alert(jsonResult.message, title, {
+            confirmButtonText: '確定',
+            callback: action => {
+            }
+          });
+        }
+      });
     },
     //加載標籤類別列表
     loadTypeList() {

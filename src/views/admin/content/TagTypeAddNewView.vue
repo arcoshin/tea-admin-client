@@ -11,7 +11,7 @@
     <el-divider></el-divider>
     <!-- 表單 -->
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
-      <el-form-item label="標籤類別" prop="name" >
+      <el-form-item label="類別名稱" prop="name" >
         <el-input v-model="ruleForm.name" style="width: 400px;"></el-input>
       </el-form-item>
       <el-form-item label="排序序號" prop="sort">
@@ -60,7 +60,7 @@ export default {
       rules: {
         name: [
           {required: true, message: '請輸入標籤類型名稱', trigger: 'blur'},
-          {pattern: /^[a-zA-Z\u4e00-\u9fa5]{2,10}$/, message: '標籤類型必須是2~10長度的字符組成，且不允許使用標點符號', trigger: 'blur'}
+          {pattern: /^[a-zA-Z0-9\u4e00-\u9fa5]{2,10}$/, message: '標籤類型必須是2~10長度的字符組成，且不允許使用標點符號', trigger: 'blur'}
         ],
         sort: [
           {required: true, message: '請輸入排序序號', trigger: 'blur'},

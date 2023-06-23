@@ -15,7 +15,6 @@
         <el-select v-model="ruleForm.typeId" placeholder="請選擇標籤類別">
           <el-option
               v-for="item in tagTypeOptions"
-              :key="item.id"
               :label="item.name"
               :value="item.id">
           </el-option>
@@ -59,34 +58,58 @@ body {
 
 <script>
 import qs from "qs";
+import axios from "axios";
 
 export default {
   data() {
     return {
+      tagTypeOptions: [],
       //表單
       ruleForm: {
-        name: '測試標籤類型名稱X',
+        typeId: 1,
+        name: '測試標籤類別',
         sort: '99',
-        enable: 0,//雖然控件預設類型為布爾類型，但應該要根據服務器所設定的類型進行設定默認值
-        typeId: ''
+        enable: 0 //雖然控件預設類型為布爾類型，但應該要根據服務器所設定的類型進行設定默認值
       },
       //表單規則
       rules: {
         name: [
           {required: true, message: '請輸入標籤類型名稱', trigger: 'blur'},
-          {pattern: /^[a-zA-Z\u4e00-\u9fa5]{2,10}$/, message: '標籤類型必須是2~10長度的字符組成，且不允許使用標點符號', trigger: 'blur'}
+          {pattern: /^[a-zA-Z0-9\u4e00-\u9fa5]{2,10}$/, message: '標籤類型必須是2~10長度的字符組成，且不允許使用標點符號', trigger: 'blur'}
         ],
         sort: [
           {required: true, message: '請輸入排序序號', trigger: 'blur'},
           {pattern: /^(\d{1}|[1-9]{1}[0-9]{1})$/, message: '排序序號必須為介於0~99之間的整數值', trigger: 'blur'}
-        ],//enable已經設置為switch控件，不需要設計規則
+        ],
+        //enable已經設置為switch控件，不需要設計規則
       }
     }
-        ;
   },
   methods: {
+    //加載標籤類別列表
+    loadTypeList() {
+      let url = 'http://localhost:9080/content/tags/type/list?queryType=all'
+      console.log('url = ' + url);
+      this.axios.get(url).then((response) => {
+        let jsonResult = response.data;
+        if (jsonResult.stateCode == 20000) {
+          this.tagTypeOptions = jsonResult.data.list;
+          if (this.tagTypeOptions && this.tagTypeOptions[0]) {
+            this.ruleForm.typeId = this.tagTypeOptions[0].id;
+          }
+        } else {
+          let title = '操作失敗';
+          this.$alert(jsonResult.message, title, {
+            confirmButtonText: '確定',
+            callback: action => {
+            }
+          })
+        }
+      })
+    },
     //切換啟用狀態
-    toggleEnable(tableItem) {let enableText = ['禁用', '啟用'];
+    toggleEnable(tableItem) {
+      let enableText = ['禁用', '啟用'];
       let url = 'http://localhost:9080/content/tags/type/' + tableItem.id;
       tableItem.enable == 0 ? url += '/disable' : url += '/enable';
       console.log('url = ' + url);
@@ -136,15 +159,12 @@ export default {
           this.axios.post(url, formData).then((response) => {
             let jsonResult = response.data;
             if (jsonResult.stateCode == 20000) {
-              this.tagTypeOptions = jsonResult.data.list;
-              if (this.tagTypeOptions && this.tagTypeOptions[0]) {
-                this.ruleForm.typeId = this.tagTypeOptions[0].id;
-              }
               //彈出訊息提示
               this.$message({
-                message: '新增標籤類型成功!',
+                message: '新增標籤成功!',
                 type: 'success'
-              })
+              });
+              this.resetForm(formName);
             } else {
               //彈出訊息提示框提示
               let title = '操作失敗';
@@ -155,7 +175,6 @@ export default {
               });
             }
           })
-          this.axios.post(url, formData);
         }
       })
     },
@@ -163,6 +182,10 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields();
     }
+  },
+  mounted() {
+    this.loadTypeList()
+
   }
 }
 </script>
