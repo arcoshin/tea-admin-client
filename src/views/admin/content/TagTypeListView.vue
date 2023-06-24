@@ -86,7 +86,7 @@ export default {
       editRules: {
         name: [
           {required: true, message: '請輸入標籤名稱', trigger: 'blur'},
-          {pattern: /^[a-zA-Z\u4e00-\u9fa5]{2,10}$/, message: '標籤必須是2~10長度的字符組成，且不允許使用標點符號', trigger: 'blur'}
+          {pattern: /^[a-zA-Z0-9\u4e00-\u9fa5]{2,10}$/, message: '標籤必須是2~10長度的字符組成，且不允許使用標點符號', trigger: 'blur'}
         ],
         sort: [
           {required: true, message: '請輸入排序序號', trigger: 'blur'},
@@ -158,7 +158,7 @@ export default {
         }
       });
     },
-    //執行修改標籤數據
+    //執行修改標籤類別數據
     handleEdit() {
       let url = 'http://localhost:9080/content/tags/type/' + this.editForm.id + '/update/info';
       console.log('url = ' + url);

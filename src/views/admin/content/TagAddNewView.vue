@@ -21,7 +21,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="標籤名稱" prop="name">
-        <el-input v-model="ruleForm.name" style="width: 400px;"></el-input>
+        <el-input v-model="ruleForm.name" style="width: 400px"></el-input>
       </el-form-item>
       <el-form-item label="排序序號" prop="sort">
         <el-input v-model="ruleForm.sort" style="width: 400px;"></el-input>
@@ -67,7 +67,7 @@ export default {
       //表單
       ruleForm: {
         typeId: 1,
-        name: '測試標籤類別',
+        name: '測試標籤名稱',
         sort: '99',
         enable: 0 //雖然控件預設類型為布爾類型，但應該要根據服務器所設定的類型進行設定默認值
       },

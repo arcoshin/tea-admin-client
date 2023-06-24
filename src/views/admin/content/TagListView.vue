@@ -33,8 +33,10 @@
       </el-table-column>
       <el-table-column label="操作" width="150px" align="center">
         <template v-slot="scope">
-          <el-button type="primary" icon="el-icon-edit" circle @click="openEditDialog(scope.row)"></el-button>
-          <el-button type="danger" icon="el-icon-delete" circle @click="openDeleteConfirm(scope.row)"></el-button>
+          <el-button type="primary" icon="el-icon-edit" circle
+                     @click="openEditDialog(scope.row)" :disabled="unchangeable(scope.row)"></el-button>
+          <el-button type="danger" icon="el-icon-delete"
+                     circle @click="openDeleteConfirm(scope.row)"></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -104,7 +106,7 @@ export default {
         ],
         name: [
           {required: true, message: '請輸入標籤名稱', trigger: 'blur'},
-          {pattern: /^[a-zA-Z\u4e00-\u9fa5]{2,10}$/, message: '標籤必須是2~10長度的字符組成，且不允許使用標點符號', trigger: 'blur'}
+          {pattern: /^[a-zA-Z0-9\u4e00-\u9fa5]{2,10}$/, message: '標籤必須是2~10長度的字符組成，且不允許使用標點符號', trigger: 'blur'}
         ],
         sort: [
           {required: true, message: '請輸入排序序號', trigger: 'blur'},
@@ -114,6 +116,12 @@ export default {
     }
   },
   methods: {
+    unchangeable(row) {
+
+      let changeIndex = false
+      if (row.typeId == 0) changeIndex = true
+      return changeIndex;
+    },
     //加載標籤類別列表
     loadTagTypeList() {
       let url = 'http://localhost:9080/content/tags/type/list?queryType=all';
@@ -182,6 +190,7 @@ export default {
       this.axios.get(url).then((response) => {
         let jsonResult = response.data;
         if (jsonResult.stateCode == 20000) {
+          //請求完成後應該刷新頁面
           this.editForm = jsonResult.data;
           this.editFormVisible = true;
         } else {
@@ -190,7 +199,7 @@ export default {
             confirmButtonText: '確定',
             callback: action => {
               //請求完成後應該刷新頁面
-              this.loadTagList();
+              this.loadTagTypeList();
             }
           });
         }
@@ -207,14 +216,14 @@ export default {
        */
       this.axios.post(url, formData).then((response) => {
         let jsonResult = response.data;
-        if (jsonResult.state == 20000) {
+        if (jsonResult.stateCode == 20000) {
           this.$message({
             message: '修改標籤成功！',
             type: 'success'
           });
           this.editFormVisible = false;
           this.loadTagList();
-        } else if (jsonResult.state == 40400) {
+        } else if (jsonResult.stateCode == 40400) {
           let title = '操作失敗';
           this.$alert(jsonResult.message, title, {
             confirmButtonText: '確定',
@@ -254,7 +263,7 @@ export default {
        */
       this.axios.post(url).then((response) => {
         let jsonResult = response.data;
-        if (jsonResult.state == 20000) {
+        if (jsonResult.stateCode == 20000) {
           this.$message({
             message: '刪除標籤成功!',
             type: 'success'
@@ -263,7 +272,7 @@ export default {
         } else {
           let title = '操作失敗';
           this.$alert(jsonResult.message, title, {
-            confirmButtonText: '确定',
+            confirmButtonText: '確定',
             callback: action => {
             }
           });
