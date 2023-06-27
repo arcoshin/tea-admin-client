@@ -16,19 +16,35 @@ const routes = [
             },
             {
                 path: '/admin/content/tags/type/add-new',//(切記不可以"/"開頭，否則不會自動完成拼接)
-                component: () => import('../views/admin/content/TagTypeAddNewView.vue')
+                component: () => import('../views/admin/temp/TagTypeAddNewView.vue')
             },
             {
                 path: '/admin/content/tags/type/list',//(切記不可以"/"開頭，否則不會自動完成拼接)
-                component: () => import('../views/admin/content/TagTypeListView.vue')
+                component: () => import('../views/admin/temp/TagTypeListView.vue')
             },
             {
                 path: '/admin/content/tags/add-new',//(切記不可以"/"開頭，否則不會自動完成拼接)
-                component: () => import('../views/admin/content/TagAddNewView.vue')
+                component: () => import('../views/admin/temp/TagAddNewView.vue')
             },
             {
                 path: '/admin/content/tags/list',//(切記不可以"/"開頭，否則不會自動完成拼接)
-                component: () => import('../views/admin/content/TagListView.vue')
+                component: () => import('../views/admin/temp/TagListView.vue')
+            },
+            {
+                path: '/admin/account/users/add-new',//(切記不可以"/"開頭，否則不會自動完成拼接)
+                component: () => import('../views/admin/temp/UserAddNewView.vue')
+            },
+            {
+                path: '/admin/account/users/list',//(切記不可以"/"開頭，否則不會自動完成拼接)
+                component: () => import('../views/admin/temp/UserListView.vue')
+            },
+            {
+                path: '/admin/content/categories/add-new',//(切記不可以"/"開頭，否則不會自動完成拼接)
+                component: () => import('../views/admin/temp/CategoryAddNewView.vue')
+            },
+            {
+                path: '/admin/content/categories/list',//(切記不可以"/"開頭，否則不會自動完成拼接)
+                component: () => import('../views/admin/temp/CategoryListView.vue')
             },
         ]
     },

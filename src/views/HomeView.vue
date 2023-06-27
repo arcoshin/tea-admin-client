@@ -71,11 +71,11 @@
                             <!-- 類別管理開始 -->
                             <el-menu-item-group>
                                 <template slot="title">類別管理</template>
-                                <el-menu-item index="/admin/temp/category/add-new">
+                                <el-menu-item index="/admin/content/categories/add-new">
                                     <i class="el-icon-circle-plus"></i>
                                     <span slot="title">新增類別</span>
                                 </el-menu-item>
-                                <el-menu-item index="/admin/temp/category/list">
+                                <el-menu-item index="/admin/content/categories/list">
                                     <i class="el-icon-circle-plus"></i>
                                     <span slot="title">類別列表</span>
                                 </el-menu-item>
