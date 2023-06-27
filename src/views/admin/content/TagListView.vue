@@ -129,7 +129,9 @@ export default {
       /**
        * 發出【查詢標籤類別列表】的請求
        */
-      this.axios.get(url).then((response) => {
+      this.axios
+          .create({'headers': {'Authorization': localStorage.getItem("localJwt")}})
+          .get(url).then((response) => {
         let jsonResult = response.data;
         if (jsonResult.stateCode == 20000) {
           this.tagTypeOptions = jsonResult.data.list;
@@ -160,7 +162,9 @@ export default {
       /**
        * 發出【根據ID查詢標籤】的請求
        */
-      this.axios.post(url).then((response) => {
+      this.axios
+          .create({'headers': {'Authorization': localStorage.getItem("localJwt")}})
+          .post(url).then((response) => {
         let jsonResult = response.data;
         if (jsonResult.stateCode == 20000) {
           this.$message({
@@ -187,7 +191,9 @@ export default {
       /**
        * 發出【根據ID查詢標籤】的請求
        */
-      this.axios.get(url).then((response) => {
+      this.axios
+          .create({'headers': {'Authorization': localStorage.getItem("localJwt")}})
+          .get(url).then((response) => {
         let jsonResult = response.data;
         if (jsonResult.stateCode == 20000) {
           //請求完成後應該刷新頁面
@@ -214,7 +220,9 @@ export default {
       /**
        * 發出【修改標籤】的請求
        */
-      this.axios.post(url, formData).then((response) => {
+      this.axios
+          .create({'headers': {'Authorization': localStorage.getItem("localJwt")}})
+          .post(url, formData).then((response) => {
         let jsonResult = response.data;
         if (jsonResult.stateCode == 20000) {
           this.$message({
@@ -261,7 +269,9 @@ export default {
       /**
        * 發出【刪除標籤】的請求
        */
-      this.axios.post(url).then((response) => {
+      this.axios
+          .create({'headers': {'Authorization': localStorage.getItem("localJwt")}})
+          .post(url).then((response) => {
         let jsonResult = response.data;
         if (jsonResult.stateCode == 20000) {
           this.$message({
@@ -295,7 +305,9 @@ export default {
       /**
        * 發出【查詢標籤列表】的請求
        */
-      this.axios.get(url).then((response) => {
+      this.axios
+          .create({'headers': {'Authorization': localStorage.getItem("localJwt")}})
+          .get(url).then((response) => {
         if (response.data.stateCode == 20000) {
           this.TagListArr = response.data.data.list;
           this.currentPage = response.data.data.currentPage;

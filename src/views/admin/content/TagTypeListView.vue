@@ -114,7 +114,9 @@ export default {
       /**
        * 發出【根據ID查詢標籤(類別)】的請求
        */
-      this.axios.post(url).then((response) => {
+      this.axios
+          .create({'headers': {'Authorization': localStorage.getItem("localJwt")}})
+          .post(url).then((response) => {
         let jsonResult = response.data;
         if (jsonResult.stateCode == 20000) {
           this.$message({
@@ -141,7 +143,9 @@ export default {
       /**
        * 發出【根據ID查詢標籤(類別)】的請求
        */
-      this.axios.get(url).then((response) => {
+      this.axios
+          .create({'headers': {'Authorization': localStorage.getItem("localJwt")}})
+          .get(url).then((response) => {
         let jsonResult = response.data;
         if (jsonResult.stateCode == 20000) {
           this.editForm = jsonResult.data;
@@ -167,7 +171,9 @@ export default {
       /**
        * 發出【修改標籤類別】的請求
        */
-      this.axios.post(url, formData).then((response) => {
+      this.axios
+          .create({'headers': {'Authorization': localStorage.getItem("localJwt")}})
+          .post(url, formData).then((response) => {
         let jsonResult = response.data;
         if (jsonResult.stateCode == 20000) {
           this.$message({
@@ -214,7 +220,9 @@ export default {
       /**
        * 發出【刪除標籤】的請求
        */
-      this.axios.post(url).then((response) => {
+      this.axios
+          .create({'headers': {'Authorization': localStorage.getItem("localJwt")}})
+          .post(url).then((response) => {
         let jsonResult = response.data;
         if (jsonResult.stateCode == 20000) {
           this.$message({
@@ -246,7 +254,9 @@ export default {
       let url = 'http://localhost:9080/content/tags/type/list?page=' + page
       console.log('url = ' + url);
 
-      this.axios.get(url).then((response) => {
+      this.axios
+          .create({'headers': {'Authorization': localStorage.getItem("localJwt")}})
+          .get(url).then((response) => {
         if (response.data.stateCode == 20000) {
           this.TagTypeListArr = response.data.data.list;
           this.currentPage = response.data.data.currentPage;

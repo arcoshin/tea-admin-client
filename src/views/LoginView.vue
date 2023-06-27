@@ -67,6 +67,14 @@ export default {
                 message: '登入成功！',
                 type: 'success'
               });
+
+              //保存登入結果數據至localStorage
+              let loginResult = jsonResult.data;
+              localStorage.setItem("localJwt",loginResult.token);
+              localStorage.setItem("currentUserId",loginResult.id);
+              localStorage.setItem("currentUserName",loginResult.username);
+              localStorage.setItem("currentUserAvatar",loginResult.avatar);
+
               this.$router.push('/');
             } else if (jsonResult.stateCode == 40100) {
               this.$message.error(jsonResult.message);

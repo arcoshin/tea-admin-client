@@ -11,7 +11,7 @@
     <el-divider></el-divider>
     <!-- 表單 -->
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
-      <el-form-item label="類別名稱" prop="name" >
+      <el-form-item label="類別名稱" prop="name">
         <el-input v-model="ruleForm.name" style="width: 400px;"></el-input>
       </el-form-item>
       <el-form-item label="排序序號" prop="sort">
@@ -92,7 +92,9 @@ export default {
           /**
            * 提交請求
            */
-          this.axios.post(url, formData).then((response) => {
+          this.axios
+              .create({'headers': {'Authorization': localStorage.getItem("localJwt")}})
+              .post(url, formData).then((response) => {
             let jsonResult = response.data;
             if (jsonResult.stateCode == 20000) {
               //彈出訊息提示
@@ -105,7 +107,8 @@ export default {
               let title = '操作失敗';
               this.$alert(jsonResult.message, title, {
                 confirmButtonText: '確定',
-                callback: action => {}//保留點擊'確定'之後的callback屬性，方便後期擴展開發
+                callback: action => {
+                }//保留點擊'確定'之後的callback屬性，方便後期擴展開發
               });
             }
           })
