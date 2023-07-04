@@ -45,6 +45,14 @@ const routes = [
             {
                 path: '/admin/content/categories/list',//(切記不可以"/"開頭，否則不會自動完成拼接)
                 component: () => import('../views/admin/temp/CategoryListView.vue')
+            },,
+            {
+                path: '/admin/content/comment/add-new',//(切記不可以"/"開頭，否則不會自動完成拼接)
+                component: () => import('../views/admin/temp/CategoryAddNewView.vue')
+            },
+            {
+                path: '/admin/content/comment/list',//(切記不可以"/"開頭，否則不會自動完成拼接)
+                component: () => import('../views/admin/temp/CategoryListView.vue')
             },
         ]
     },

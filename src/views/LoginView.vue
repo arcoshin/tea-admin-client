@@ -55,6 +55,11 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+            /**
+             * 發送登入請求時
+             * 要注意發請求時"應攜帶憑證相關消息"以供服務器識別(Security框架無法識別)
+             * axios.defaults.withCredentials = true;
+             */
           let url = 'http://localhost:9080/account/users/login';
           console.log('url = ' + url);
           let formData = this.qs.stringify(this.ruleForm);

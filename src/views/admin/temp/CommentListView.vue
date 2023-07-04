@@ -6,45 +6,62 @@
             <el-breadcrumb-item :to="{ path: '/' }">
                 <i class="el-icon-s-promotion"></i> 後臺管理
             </el-breadcrumb-item>
-            <el-breadcrumb-item class="el-breadcrumb__inner is-link">用戶管理</el-breadcrumb-item>
+            <el-breadcrumb-item class="el-breadcrumb__inner is-link">評論管理</el-breadcrumb-item>
         </el-breadcrumb>
         <el-divider></el-divider>
 
         <!-- 操作區域 -->
         <div style="margin: 0 0 20px 0;">
             <el-button type="primary" size="medium"
-                       @click="$router.push('/admin/account/users/add-new')">添加用戶
+                       @click="$router.push('/admin/account/users/add-new')">添加評論
             </el-button>
         </div>
 
         <!-- 數據表格 -->
         <el-table :data="tableData" border style="width: 100%">
             <el-table-column prop="id" label="ID" width="60" align="center"></el-table-column>
-            <el-table-column label="頭像" width="60" align="center">
-                <template slot-scope="scope">
-                    <el-avatar :size="30" :src="scope.row.avatar"></el-avatar>
-                </template>
-            </el-table-column>
-            <el-table-column prop="username" label="用戶名稱" width="120" header-align="center"
+            <el-table-column prop="articleBrief" label="文章" width="120" align="center"></el-table-column>
+            <el-table-column prop="content" label="評論內容" width="120" header-align="center"
                              :show-overflow-tooltip="true"></el-table-column>
-            <el-table-column prop="nickname" label="用戶暱稱" width="100" header-align="center"
+            <el-table-column prop="AuthorName" label="評論作者" width="100" header-align="center"
                              :show-overflow-tooltip="true"></el-table-column>
-            <el-table-column prop="phone" label="手機號碼" width="120" align="center"
+            <el-table-column prop="ip" label="IP" width="120" align="center"
                              :show-overflow-tooltip="true"></el-table-column>
-            <el-table-column prop="email" label="電子信箱" width="250" header-align="center"
+            <el-table-column prop="floor" label="樓層" width="250" header-align="center"
                              :show-overflow-tooltip="true"></el-table-column>
-            <el-table-column prop="description" label="簡介" header-align="center"
+            <el-table-column prop="up" label="頂" header-align="center"
                              :show-overflow-tooltip="true"></el-table-column>
-            <el-table-column label="是否啓用" width="120" align="center">
+            <el-table-column prop="down" label="踩" header-align="center"
+                             :show-overflow-tooltip="true"></el-table-column>
+            <el-table-column label="審核狀態" width="120" align="center">
                 <template slot-scope="scope">
                     <el-switch
                             @change="toggleEnable(scope.row)"
-                            v-model="scope.row.enable"
+                            v-model="scope.row.checkState"
                             :active-value="1"
                             :inactive-value="0"
                             active-color="#13ce66"
                             inactive-color="#999">
                     </el-switch>
+                </template>
+            </el-table-column>
+            <el-table-column label="顯示狀態" width="120" align="center">
+                <template slot-scope="scope">
+                    <el-switch
+                            @change="toggleEnable(scope.row)"
+                            v-model="scope.row.displayState"
+                            :active-value="1"
+                            :inactive-value="0"
+                            active-color="#13ce66"
+                            inactive-color="#999">
+                    </el-switch>
+                </template>
+            </el-table-column>
+            <el-table-column label="操作" width="100" align="center">
+                <template v-slot="scope">
+                    <el-button type="primary" icon="el-icon-edit" circle size="mini"
+                               @click="openEditDialog(scope.row)">查看原文
+                    </el-button>
                 </template>
             </el-table-column>
             <el-table-column label="操作" width="100" align="center">
@@ -70,32 +87,7 @@
         </div>
 
         <!-- 修改數據的表單 -->
-        <el-dialog title="編輯用戶數據" :visible.sync="editFormVisible">
-            <el-form :model="editForm" :rules="editRules" label-width="120px">
-                <el-form-item label="頭像" prop="avatar">
-                    <el-input v-model="editForm.avatar"></el-input>
-                </el-form-item>
-                <el-form-item label="用戶名稱" prop="username">
-                    <el-input v-model="editForm.username"></el-input>
-                </el-form-item>
-                <el-form-item label="用戶暱稱" prop="nickname">
-                    <el-input v-model="editForm.nickname"></el-input>
-                </el-form-item>
-                <el-form-item label="手機號碼" prop="phone">
-                    <el-input v-model="editForm.phone"></el-input>
-                </el-form-item>
-                <el-form-item label="電子信箱" prop="email">
-                    <el-input v-model="editForm.email"></el-input>
-                </el-form-item>
-                <el-form-item label="簡介" prop="description">
-                    <el-input v-model="editForm.description"></el-input>
-                </el-form-item>
-            </el-form>
-            <div slot="footer" class="dialog-footer">
-                <el-button @click="editFormVisible = false">取 消</el-button>
-                <el-button type="primary" @click="handleEdit">確 定</el-button>
-            </div>
-        </el-dialog>
+<!--        <el-dialog title="編輯評論數據" :visible.sync="editFormVisible"></el-dialog>-->
     </div>
 </template>
 
@@ -115,39 +107,22 @@
                 editFormVisible: false,
                 editForm: {
                     id: "",
-                    username: '',
-                    nickname: '',
-                    description: '',
-                    avatar: '',
-                    email: '',
-                    phone: '',
+                    articleBrief: '',
+                    content: '',
+                    AuthorName: '',
+                    ip: '',
+                    floor: '',
+                    up: '',
+                    down: '',
+                    checkState: '',
+                    displayState: '',
                 },
                 //編輯表單規則
                 editRules: {
                     username: [
-                        {required: true, message: '請輸入用戶名稱', trigger: 'blur'},
+                        {required: true, message: '請輸入評論名稱', trigger: 'blur'},
                         {min: 4, max: 15, message: '長度在 4 到 15 個字符', trigger: 'blur'}
                     ],
-                    nickname: [
-                        {required: true, message: '請輸入用戶暱稱', trigger: 'blur'},
-                        {min: 2, max: 15, message: '長度在 2 到 15 個字符', trigger: 'blur'}
-                    ],
-                    avatar: [
-                        {required: true, message: '請輸入頭像的URL', trigger: 'blur'},
-                        {min: 10, max: 255, message: '長度在 10 到 255 個字符', trigger: 'blur'}
-                    ],
-                    phone: [
-                        {required: true, message: '請輸入手機號碼', trigger: 'blur'},
-                        {min: 8, max: 15, message: '長度在 8 到 15 個字符', trigger: 'blur'}
-                    ],
-                    email: [
-                        {required: true, message: '請輸入電子郵箱', trigger: 'blur'},
-                        {min: 8, max: 35, message: '長度在 8 到 35 個字符', trigger: 'blur'}
-                    ],
-                    description: [
-                        {required: true, message: '請輸入個人簡介', trigger: 'blur'},
-                        {min: 2, max: 35, message: '長度在 4 到 35 個字符', trigger: 'blur'}
-                    ]
                 }
             }
         },
@@ -229,7 +204,7 @@
                 let url = 'http://localhost:9080/account/users/' + tableItem.id;
                 console.log('url = ' + url);
                 /**
-                 * 發出【根據ID查詢用戶】的請求
+                 * 發出【根據ID查詢評論】的請求
                  */
                 this.axios
                     .create({'headers': {'Authorization': localStorage.getItem("localJwt")}})
@@ -251,14 +226,14 @@
                     }
                 });
             },
-            //執行修改用戶數據
+            //執行修改評論數據
             handleEdit() {
                 let url = 'http://localhost:9080/account/users/' + this.editForm.id + '/update/info';
                 console.log('url = ' + url);
                 let formData = this.qs.stringify(this.editForm);
                 console.log('formData = ' + formData);
                 /**
-                 * 發出【修改用戶】的請求
+                 * 發出【修改評論】的請求
                  */
                 this.axios
                     .create({'headers': {'Authorization': localStorage.getItem("localJwt")}})
@@ -266,7 +241,7 @@
                     let jsonResult = response.data;
                     if (jsonResult.stateCode == 20000) {
                         this.$message({
-                            message: '修改用戶成功！',
+                            message: '修改評論成功！',
                             type: 'success'
                         });
                         this.editFormVisible = false;
@@ -292,7 +267,7 @@
             },
             //彈出刪除確認框
             openDeleteConfirm(user) {
-                let message = '此操作將永久刪除【' + user.username + '】用戶，是否繼續？';
+                let message = '此操作將永久刪除【' + user.username + '】評論，是否繼續？';
                 this.$confirm(message, '提示', {
                     confirmButtonText: '確定',
                     cancelButtonText: '取消',
@@ -302,7 +277,7 @@
                 }).catch(() => {
                 });
             },
-            //執行刪除用戶數據
+            //執行刪除評論數據
             handleDelete(user) {
                 let url = 'http://localhost:9080/account/users/' + user.id + '/delete';
                 console.log('url = ' + url);
@@ -313,7 +288,7 @@
                     let jsonResult = response.data;
                     if (jsonResult.stateCode == 20000) {
                         this.$message({
-                            message: '刪除【' + user.username + '】用戶成功！',
+                            message: '刪除【' + user.username + '】評論成功！',
                             type: 'success'
                         });
                         this.loadUserList();
@@ -345,12 +320,12 @@
                 this.$router.replace('?page=' + page);
                 this.loadUserList();
             },
-            //加載用戶列表
+            //加載評論列表
             loadUserList() {
                 let page = this.$router.currentRoute.query.page;
                 if (!page) page = 1;
 
-                let url = 'http://localhost:9080/account/users?page=' + page;
+                let url = 'http://localhost:9080/contnet/comments/list-by-article?queryType=1&articleId=1';
                 console.log('url = ' + url);
 
                 this.axios

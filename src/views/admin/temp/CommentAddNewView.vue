@@ -5,8 +5,8 @@
             <el-breadcrumb-item :to="{ path: '/' }">
                 <i class="el-icon-s-promotion"></i> 後臺管理
             </el-breadcrumb-item>
-            <el-breadcrumb-item :to="{ path: '/sys-admin/permission/admin' }">用戶管理</el-breadcrumb-item>
-            <el-breadcrumb-item>添加用戶</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/sys-admin/permission/admin' }">評論管理</el-breadcrumb-item>
+            <el-breadcrumb-item>添加評論</el-breadcrumb-item>
         </el-breadcrumb>
         <el-divider></el-divider>
 

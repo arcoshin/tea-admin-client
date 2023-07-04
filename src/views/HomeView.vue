@@ -94,6 +94,19 @@
                                 </el-menu-item>
                             </el-menu-item-group>
                             <!-- 用戶管理結束 -->
+                            <!-- 評論管理開始 -->
+                            <el-menu-item-group>
+                                <template slot="title">評論管理</template>
+                                <el-menu-item index="/admin/content/comments/add-new">
+                                    <i class="el-icon-circle-plus"></i>
+                                    <span slot="title">新增評論</span>
+                                </el-menu-item>
+                                <el-menu-item index="/admin/content/comments/list">
+                                    <i class="el-icon-circle-plus"></i>
+                                    <span slot="title">評論列表</span>
+                                </el-menu-item>
+                            </el-menu-item-group>
+                            <!-- 評論管理結束 -->
                         </el-submenu>
                     </el-menu>
                 </el-aside>
@@ -136,8 +149,8 @@
         background-color: #2c3e50;
     }
 
-    .tea-index-main {
-
+    body {
+        background-color: #2c3e50;
     }
 
     .el-menu-item.is-active {
