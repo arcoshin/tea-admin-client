@@ -107,6 +107,24 @@
                                 </el-menu-item>
                             </el-menu-item-group>
                             <!-- 評論管理結束 -->
+                            <!-- 文章管理開始 -->
+                            <el-menu-item-group>
+                                <template slot="title">文章管理</template>
+                                <el-menu-item index="/admin/content/articles/add-new">
+                                    <i class="el-icon-circle-plus"></i>
+                                    <span slot="title">發布文章</span>
+                                </el-menu-item>
+                                <el-menu-item index="/admin/content/articles/list">
+                                    <i class="el-icon-circle-plus"></i>
+                                    <span slot="title">文章列表</span>
+                                </el-menu-item>
+                                <el-menu-item index="/admin/content/articles/add-new/temp">
+                                    <i class="el-icon-circle-plus"></i>
+                                    <span slot="title">發布文章[臨時]</span>
+                                </el-menu-item>
+                            </el-menu-item-group>
+
+                            <!-- 文章管理結束 -->
                         </el-submenu>
                     </el-menu>
                 </el-aside>

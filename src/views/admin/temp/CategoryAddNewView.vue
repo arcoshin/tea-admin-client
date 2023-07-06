@@ -13,6 +13,7 @@
         <!-- 添加數據的表單 -->
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="130px" class="demo-ruleForm">
             <el-form-item label="父級類別" prop="parentId">
+                <!-- :props="{ checkStrictly: true }" 開啟可以選擇中間類別，就不會永遠只能選到最後類型 -->
                 <el-cascader
                         style="width: 100%;"
                         placeholder="請選擇父級類別，如不選擇，則表示無父級類別"
@@ -110,8 +111,8 @@
             submitForm(formName) {
                 console.log(this.ruleForm.parentId);
                 if (Array.isArray(this.ruleForm.parentId)) {
-                    this.ruleForm.parentId = this.ruleForm.parentId.pop();
-                }
+                    this.ruleForm.parentId = this.ruleForm.parentId.pop();//數據彈出後返回
+                }// 避免提交多層級數據，選擇父級類別時，我們只需要最底層的類別ID
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         let url = 'http://localhost:9080/categories/add-new';

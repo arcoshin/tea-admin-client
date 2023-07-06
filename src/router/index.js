@@ -47,12 +47,24 @@ const routes = [
                 component: () => import('../views/admin/temp/CategoryListView.vue')
             },,
             {
-                path: '/admin/content/comment/add-new',//(切記不可以"/"開頭，否則不會自動完成拼接)
+                path: '/admin/content/comments/add-new',//(切記不可以"/"開頭，否則不會自動完成拼接)
                 component: () => import('../views/admin/temp/CategoryAddNewView.vue')
             },
             {
-                path: '/admin/content/comment/list',//(切記不可以"/"開頭，否則不會自動完成拼接)
+                path: '/admin/content/comments/list',//(切記不可以"/"開頭，否則不會自動完成拼接)
                 component: () => import('../views/admin/temp/CategoryListView.vue')
+            },
+            {
+                path: '/admin/content/articles/add-new',
+                component: () => import('../views/admin/temp/ArticleAddNewView.vue')
+            },
+            {
+                path: '/admin/content/articles/list',
+                component: () => import('../views/admin/temp/ArticleListView.vue')
+            },
+            {
+                path: '/admin/content/articles/add-new/temp',
+                component: () => import('../views/admin/temp/ArticleAddNewTempView.vue')
             },
         ]
     },

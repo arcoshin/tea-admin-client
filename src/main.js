@@ -14,7 +14,7 @@ import qs from 'qs';
 axios.defaults.withCredentials = true;
 
 Vue.use(ElementUI, {
-    locale: { ...zh_tw_Lang }, // 使用本地的 zh_tw_Lang 去覆蓋官方的 zh_cn_Lang
+    locale: { ...zh_tw_Lang }, // 使用本地的 zh_tw_Lang 去覆蓋官方的
 });
 /*Vue.prototype.自定義=變量名，其中變量名只需與上述一致即可；自定義則全局使用*/
 Vue.prototype.qs = qs;

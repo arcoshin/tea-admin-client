@@ -73,7 +73,8 @@ export default {
                 type: 'success'
               });
 
-              //保存登入結果數據至localStorage
+              //請求成果返回的結果會包含JWT
+              //保存數據至localStorage以便全局取用
               let loginResult = jsonResult.data;
               localStorage.setItem("localJwt",loginResult.token);
               localStorage.setItem("currentUserId",loginResult.id);
