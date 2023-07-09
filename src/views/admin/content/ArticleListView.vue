@@ -81,6 +81,7 @@
               <el-descriptions-item label="發布IP">{{articlePreviewData.ip}}</el-descriptions-item>
               <el-descriptions-item label="最後修改時間">{{articlePreviewData.gmtModified}}</el-descriptions-item>
               <el-descriptions-item label="摘要">{{articlePreviewData.brief}}</el-descriptions-item>
+              <!-- v-html：以HTML格式顯示數據 -->
               <el-descriptions-item label="文章詳情"><span v-html="articlePreviewData.detail"></span></el-descriptions-item>
               <el-descriptions-item label="瀏覽量">{{articlePreviewData.clickCount}}</el-descriptions-item>
               <el-descriptions-item label="頂數量">{{articlePreviewData.upCount}}</el-descriptions-item>

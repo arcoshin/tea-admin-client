@@ -50,7 +50,7 @@
                 </div>
             </el-form-item>
             <el-form-item label="正文" prop="detail">
-                <div id="wangEditor"></div>
+                <div id="wangEditorXXX"></div>
             </el-form-item>
             <el-form-item label="標籤" prop="tags">
                 <el-input v-model="ruleForm.tags"></el-input>
@@ -99,8 +99,8 @@
         methods: {
             // 初始化富文本編輯器
             initWangEditor() {
-                this.editor = new this.wangEditor('#wangEditor');
-                this.editor.config.zIndex = 1;
+                this.editor = new this.wangEditor('#wangEditorXXX');
+                this.editor.config.zIndex = 1;//修正與確認框的層級問題
                 this.editor.create();
             },
             // 上傳成功後的回調
@@ -111,10 +111,12 @@
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
+                        //解決類別提交數組值的問題(只須提交最底層)
                         if (Array.isArray(this.ruleForm.categoryId)) {
                             this.ruleForm.categoryId = this.ruleForm.categoryId.pop();
                         }
 
+                        //獲取富文本編輯器中的HTML文本，並與detail綁定
                         this.ruleForm.detail = this.editor.txt.html();
                         console.log(this.ruleForm.detail);
 
