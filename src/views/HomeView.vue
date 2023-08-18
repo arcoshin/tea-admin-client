@@ -18,7 +18,7 @@
                     </el-dropdown>
                 </div>
                 <!-- 頂欄的標題文字 -->
-                <h1>學茶商城後台管理系統</h1>
+                <h1>XXX商城後台管理系統</h1>
             </el-header>
             <!-- 下半區域 -->
             <el-container class="tea-index-inside-container">
@@ -35,97 +35,69 @@
                             router
                             active-text-color="#ffd04b">
                         <el-menu-item index="/admin/index">
-                            <i class="el-icon-menu"></i>
-                            <span slot="title">首頁</span>
+                            <i class="el-icon-s-home"></i>
+                            <span>首頁</span>
                         </el-menu-item>
+                        <!-- 用戶管理開始 -->
+                        <el-submenu index="account">
+                            <template slot="title">
+                                <i class="el-icon-s-check"></i>
+                                <span>帳號管理</span>
+                            </template>
+                            <el-menu-item index="/admin/account/users/list">
+                                <i class="el-icon-user-solid"></i>
+                                <span slot="title">用戶管理</span>
+                            </el-menu-item>
+                        </el-submenu>
+                        <!-- 用戶管理結束 -->
+                        <!-- 內容管理開始 -->
+                        <el-submenu index="content">
+                            <template slot="title">
+                                <i class="el-icon-s-management"></i>
+                                <span>內容管理</span>
+                            </template>
+                            <el-menu-item index="/admin/content/tags/type/list">
+                                <i class="el-icon-s-finance"></i>
+                                <span slot="title">標籤類別管理</span>
+                            </el-menu-item>
+                            <el-menu-item index="/admin/content/tags/list">
+                                <i class="el-icon-s-flag"></i>
+                                <span slot="title">標籤管理</span>
+                            </el-menu-item>
+                            <el-menu-item index="/admin/content/categories/list">
+                                <i class="el-icon-s-unfold"></i>
+                                <span slot="title">類別管理</span>
+                            </el-menu-item>
+                            <el-menu-item index="/admin/content/articles/list">
+                                <i class="el-icon-s-order"></i>
+                                <span slot="title">文章管理</span>
+                            </el-menu-item>
+                            <el-menu-item index="/admin/content/comments/list">
+                                <i class="el-icon-circle-plus"></i>
+                                <span slot="title">評論管理</span>
+                            </el-menu-item>
+                        </el-submenu>
+                        <!-- 內容管理結束 -->
+                        <!-- 商品管理開始 -->
+                        <el-submenu index="product">
+                            <template slot="title">
+                                <i class="el-icon-s-shop"></i>
+                                <span>商品管理</span>
+                            </template>
+                            <el-menu-item index="/admin/product/categories/list">
+                                <i class="el-icon-s-unfold"></i>
+                                <span slot="title">商品類別管理</span>
+                            </el-menu-item>
+                            <el-menu-item index="/admin/product/goods/list">
+                                <i class="el-icon-s-goods"></i>
+                                <span slot="title">商品管理</span>
+                            </el-menu-item>
+                        </el-submenu>
+                        <!-- 商品管理結束 -->
                         <el-menu-item index="/login">
                             <i class="el-icon-menu"></i>
                             <span slot="title">登入</span>
                         </el-menu-item>
-                        <el-submenu index="/admin/index">
-                            <template slot="title">
-                                <i class="el-icon-location"></i>
-                                <span>臨時頁面</span>
-                            </template>
-                            <!-- 標籤管理開始 -->
-                            <el-menu-item-group>
-                                <template slot="title">標籤管理</template>
-                                <el-menu-item index="/admin/content/tags/type/add-new">
-                                    <i class="el-icon-circle-plus"></i>
-                                    <span slot="title">新增標籤類別</span>
-                                </el-menu-item>
-                                <el-menu-item index="/admin/content/tags/type/list">
-                                    <i class="el-icon-circle-plus"></i>
-                                    <span slot="title">標籤類別列表</span>
-                                </el-menu-item>
-                                <el-menu-item index="/admin/content/tags/add-new">
-                                    <i class="el-icon-circle-plus"></i>
-                                    <span slot="title">新增標籤</span>
-                                </el-menu-item>
-                                <el-menu-item index="/admin/content/tags/list">
-                                    <i class="el-icon-circle-plus"></i>
-                                    <span slot="title">標籤列表</span>
-                                </el-menu-item>
-                            </el-menu-item-group>
-                            <!-- 標籤管理結束 -->
-                            <!-- 類別管理開始 -->
-                            <el-menu-item-group>
-                                <template slot="title">類別管理</template>
-                                <el-menu-item index="/admin/content/categories/add-new">
-                                    <i class="el-icon-circle-plus"></i>
-                                    <span slot="title">新增類別</span>
-                                </el-menu-item>
-                                <el-menu-item index="/admin/content/categories/list">
-                                    <i class="el-icon-circle-plus"></i>
-                                    <span slot="title">類別列表</span>
-                                </el-menu-item>
-                            </el-menu-item-group>
-                            <!-- 類別管理結束 -->
-                            <!-- 用戶管理開始 -->
-                            <el-menu-item-group>
-                                <template slot="title">用戶管理</template>
-                                <el-menu-item index="/admin/account/users/add-new">
-                                    <i class="el-icon-circle-plus"></i>
-                                    <span slot="title">新增用戶</span>
-                                </el-menu-item>
-                                <el-menu-item index="/admin/account/users/list">
-                                    <i class="el-icon-circle-plus"></i>
-                                    <span slot="title">用戶列表</span>
-                                </el-menu-item>
-                            </el-menu-item-group>
-                            <!-- 用戶管理結束 -->
-                            <!-- 評論管理開始 -->
-                            <el-menu-item-group>
-                                <template slot="title">評論管理</template>
-                                <el-menu-item index="/admin/content/comments/add-new">
-                                    <i class="el-icon-circle-plus"></i>
-                                    <span slot="title">新增評論</span>
-                                </el-menu-item>
-                                <el-menu-item index="/admin/content/comments/list">
-                                    <i class="el-icon-circle-plus"></i>
-                                    <span slot="title">評論列表</span>
-                                </el-menu-item>
-                            </el-menu-item-group>
-                            <!-- 評論管理結束 -->
-                            <!-- 文章管理開始 -->
-                            <el-menu-item-group>
-                                <template slot="title">文章管理</template>
-                                <el-menu-item index="/admin/content/articles/add-new">
-                                    <i class="el-icon-circle-plus"></i>
-                                    <span slot="title">發布文章</span>
-                                </el-menu-item>
-                                <el-menu-item index="/admin/content/articles/list">
-                                    <i class="el-icon-circle-plus"></i>
-                                    <span slot="title">文章列表</span>
-                                </el-menu-item>
-                                <el-menu-item index="/admin/content/articles/add-new/temp">
-                                    <i class="el-icon-circle-plus"></i>
-                                    <span slot="title">發布文章[臨時]</span>
-                                </el-menu-item>
-                            </el-menu-item-group>
-
-                            <!-- 文章管理結束 -->
-                        </el-submenu>
                     </el-menu>
                 </el-aside>
                 <el-main class="tea-index-main">

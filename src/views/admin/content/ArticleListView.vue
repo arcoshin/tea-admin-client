@@ -97,24 +97,6 @@
 
       <!-- 修改數據的表單 -->
       <el-dialog title="編輯文章數據" :visible.sync="editFormVisible">
-          <el-form :model="editForm" :rules="editRules" label-width="120px">
-              <el-form-item label="標籤類別" prop="typeId">
-                  <el-select v-model="editForm.typeId" placeholder="請選擇">
-                      <el-option
-                              v-for="item in tagTypeOptions"
-                              :key="item.id"
-                              :label="item.name"
-                              :value="item.id">
-                      </el-option>
-                  </el-select>
-              </el-form-item>
-              <el-form-item label="標籤名稱" prop="name">
-                  <el-input v-model="editForm.name"></el-input>
-              </el-form-item>
-              <el-form-item label="排序序號" prop="sort">
-                  <el-input v-model="editForm.sort"></el-input>
-              </el-form-item>
-          </el-form>
           <div slot="footer" class="dialog-footer">
               <el-button @click="editFormVisible = false">取 消</el-button>
               <el-button type="primary" @click="handleEdit()">確 定</el-button>
@@ -139,24 +121,9 @@
                 // 編輯對話框相關數據
                 editFormVisible: false,
                 editForm: {
-                    id: '',
-                    typeId: '',
-                    name: '',
-                    sort: ''
                 },
                 // 編輯表單規則
                 editRules: {
-                    typeId: [
-                        {required: true, message: '請選擇標籤類別', trigger: 'blur'}
-                    ],
-                    name: [
-                        {required: true, message: '請輸入標籤名稱', trigger: 'blur'},
-                        {pattern: /^[a-zA-Z\u4e00-\u9fa5]{2,10}$/, message: '標籤必須是2~10長度的字符組成，且不允許使用標點符號', trigger: 'blur'}
-                    ],
-                    sort: [
-                        {required: true, message: '請輸入排序序號', trigger: 'blur'},
-                        {pattern: /^(\d{1}|[1-9]{1}[0-9]{1})$/, message: '排序序號必須是0~99之間的值', trigger: 'blur'}
-                    ]
                 }
             };
         },
@@ -168,6 +135,45 @@
             },
             // 切換審核狀態
             toggleCheckState(tableItem) {
+                let checkText = ['取消審核', '審核通過'];
+                let url = 'http://localhost:9080/content/articles/' + tableItem.id;
+                if (tableItem.checkState == 0) {
+                    url += '/cancel-check';
+                } else {
+                    url += '/pass-check';
+                }
+                console.log('url = ' + url);
+
+                this.axios
+                    .create({'headers': {'Authorization': localStorage.getItem('localJwt')}})
+                    .post(url).then((response) => {
+                    let jsonResult = response.data;
+                    if (jsonResult.state == 20000) {
+                        this.$message({
+                            message: checkText[tableItem.checkState] + '文章成功！ ',
+                            type: 'success'
+                        });
+                    } else {
+                        let title = '操作失敗';
+                        this.$alert(jsonResult.message, title, {
+                            confirmButtonText: '確定',
+                            callback: action => {
+                                if (jsonResult.state == 40400) {
+                                    this.loadArticleList();
+                                }
+                            }
+                        });
+                    }
+                }).catch(error => {
+                    let title = '錯誤';
+                    let message = '程序執行過程中出現錯誤，請打開瀏覽器的控制台查看詳細錯誤信息！ ';
+                    this.$alert(message, title, {
+                        confirmButtonText: '確定',
+                        callback: action => {
+                        }
+                    });
+                    console.log(error);
+                });
             },
             // 彈出修改對話框
             openEditDialog(tableItem) {
@@ -183,7 +189,7 @@
             },
             // 顯示文章詳情
             showArticleDetail(article) {
-                let url = 'http://localhost:9080/articles/' + article.id;
+                let url = 'http://localhost:9080/content/articles/' + article.id;
                 console.log('url = ' + url);
 
                 this.axios
@@ -202,16 +208,24 @@
                             }
                         });
                     }
+                }).catch(error => {
+                    let title = '錯誤';
+                    let message = '程序執行過程中出現錯誤，請打開瀏覽器的控制台查看詳細錯誤信息！ ';
+                    this.$alert(message, title, {
+                        confirmButtonText: '確定',
+                        callback: action => {
+                        }
+                    });
+                    console.log(error);
                 });
             },
             // 加載文章列表
             loadArticleList() {
                 let page = this.$router.currentRoute.query.page;
-                if (!page) {
-                    page = 1;
-                }
+                if (!page) page = 1;
 
-                let url = 'http://localhost:9080/articles?page=' + page;
+
+                let url = 'http://localhost:9080/content/articles?page=' + page;
                 console.log('url = ' + url);
 
                 this.axios
@@ -231,6 +245,15 @@
                             }
                         });
                     }
+                }).catch(error => {
+                    let title = '錯誤';
+                    let message = '程序執行過程中出現錯誤，請打開瀏覽器的控制台查看詳細錯誤信息！ ';
+                    this.$alert(message, title, {
+                        confirmButtonText: '確定',
+                        callback: action => {
+                        }
+                    });
+                    console.log(error);
                 });
             }
         },

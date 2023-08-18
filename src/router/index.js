@@ -10,10 +10,27 @@ const routes = [
         component: HomeView,
         redirect: '/admin/index',
         children: [
+            /**
+             * 首頁
+             */
             {
                 path: '/admin/index',//等價於"/tea/about" (切記不可以"/"開頭，否則不會自動完成拼接)
                 component: () => import('../views/admin/AdminIndexView.vue')
             },
+            /**
+             * 帳號管理
+             */
+            {
+                path: '/admin/account/users/add-new',//(切記不可以"/"開頭，否則不會自動完成拼接)
+                component: () => import('../views/admin/account/UserAddNewView.vue')
+            },
+            {
+                path: '/admin/account/users/list',//(切記不可以"/"開頭，否則不會自動完成拼接)
+                component: () => import('../views/admin/account/UserListView.vue')
+            },
+            /**
+             * 內容管理
+             */
             {
                 path: '/admin/content/tags/type/add-new',//(切記不可以"/"開頭，否則不會自動完成拼接)
                 component: () => import('../views/admin/content/TagTypeAddNewView.vue')
@@ -31,21 +48,13 @@ const routes = [
                 component: () => import('../views/admin/content/TagListView.vue')
             },
             {
-                path: '/admin/account/users/add-new',//(切記不可以"/"開頭，否則不會自動完成拼接)
-                component: () => import('../views/admin/account/UserAddNewView.vue')
-            },
-            {
-                path: '/admin/account/users/list',//(切記不可以"/"開頭，否則不會自動完成拼接)
-                component: () => import('../views/admin/account/UserListView.vue')
-            },
-            {
                 path: '/admin/content/categories/add-new',//(切記不可以"/"開頭，否則不會自動完成拼接)
                 component: () => import('../views/admin/content/CategoryAddNewView.vue')
             },
             {
                 path: '/admin/content/categories/list',//(切記不可以"/"開頭，否則不會自動完成拼接)
                 component: () => import('../views/admin/content/CategoryListView.vue')
-            },,
+            },
             {
                 path: '/admin/content/comments/add-new',//(切記不可以"/"開頭，否則不會自動完成拼接)
                 component: () => import('../views/admin/content/CategoryAddNewView.vue')
@@ -62,9 +71,25 @@ const routes = [
                 path: '/admin/content/articles/list',
                 component: () => import('../views/admin/content/ArticleListView.vue')
             },
+            /**
+             * 商品管理
+             */
+
             {
-                path: '/admin/content/articles/add-new/temp',
-                component: () => import('../views/admin/content/ArticleAddNewTempView.vue')
+                path: '/admin/product/categories/add-new',
+                component: () => import('../views/admin/product/CategoryAddNewView.vue')
+            },
+            {
+                path: '/admin/product/categories/list',
+                component: () => import('../views/admin/product/CategoryListView.vue')
+            },
+            {
+                path: '/admin/product/goods/add-new',
+                component: () => import('../views/admin/product/GoodsAddNewView.vue')
+            },
+            {
+                path: '/admin/product/goods/list',
+                component: () => import('../views/admin/product/GoodsListView.vue')
             },
         ]
     },
