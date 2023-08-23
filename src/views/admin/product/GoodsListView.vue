@@ -148,7 +148,7 @@ export default {
           .create({'headers': {'Authorization': localStorage.getItem('localJwt')}})
           .post(url).then((response) => {
         let jsonResult = response.data;
-        if (jsonResult.state == 20000) {
+        if (jsonResult.stateCode == 20000) {
           this.$message({
             message: statusText[tableItem.status] + '商品成功！',
             type: 'success'
@@ -158,7 +158,7 @@ export default {
           this.$alert(jsonResult.message, title, {
             confirmButtonText: '確定',
             callback: action => {
-              if (jsonResult.state == 40400) {
+              if (jsonResult.stateCode == 40400) {
                 this.loadGoodsList();
               }
             }
@@ -196,7 +196,7 @@ export default {
           .create({'headers': {'Authorization': localStorage.getItem('localJwt')}})
           .get(url).then((response) => {
         let jsonResult = response.data;
-        if (jsonResult.state == 20000) {
+        if (jsonResult.stateCode == 20000) {
           this.goodsPreviewData = jsonResult.data;
           this.goodsPreviewDialogVisible = true;
         } else {
@@ -233,7 +233,7 @@ export default {
           .create({'headers': {'Authorization': localStorage.getItem('localJwt')}})
           .get(url).then((response) => {
         let jsonResult = response.data;
-        if (jsonResult.state == 20000) {
+        if (jsonResult.stateCode == 20000) {
           this.tableData = jsonResult.data.list;
           this.currentPage = jsonResult.data.currentPage;
           this.pageSize = jsonResult.data.pageSize;

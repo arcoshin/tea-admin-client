@@ -82,7 +82,7 @@
                         <el-submenu index="product">
                             <template slot="title">
                                 <i class="el-icon-s-shop"></i>
-                                <span>商品管理</span>
+                                <span>開發中模塊</span>
                             </template>
                             <el-menu-item index="/admin/product/categories/list">
                                 <i class="el-icon-s-unfold"></i>

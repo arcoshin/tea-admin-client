@@ -189,13 +189,13 @@ export default {
           .create({'headers': {'Authorization': localStorage.getItem('localJwt')}})
           .post(url).then((response) => {
         let jsonResult = response.data;
-        if (jsonResult.state == 20000) {
+        if (jsonResult.stateCode == 20000) {
           this.$message({
             message: '將【' + category.name + '】的啓用狀態修改爲【' + enableText[enable] + '】成功！',
             type: 'success'
           });
           this.loadCategoryList();
-        } else if (jsonResult.state == 40400) {
+        } else if (jsonResult.stateCode == 40400) {
           let title = '操作失敗';
           this.$alert(jsonResult.message, title, {
             confirmButtonText: '確定',
@@ -238,13 +238,13 @@ export default {
           .create({'headers': {'Authorization': localStorage.getItem('localJwt')}})
           .post(url).then((response) => {
         let jsonResult = response.data;
-        if (jsonResult.state == 20000) {
+        if (jsonResult.stateCode == 20000) {
           this.$message({
             message: '將【' + category.name + '】的顯示狀態修改爲【' + displayText[isDisplay] + '】成功！',
             type: 'success'
           });
           this.loadCategoryList();
-        } else if (jsonResult.state == 40400) {
+        } else if (jsonResult.stateCode == 40400) {
           let title = '操作失敗';
           this.$alert(jsonResult.message, title, {
             confirmButtonText: '確定',
@@ -280,10 +280,10 @@ export default {
           .create({'headers': {'Authorization': localStorage.getItem('localJwt')}})
           .get(url).then((response) => {
         let jsonResult = response.data;
-        if (jsonResult.state == 20000) {
+        if (jsonResult.stateCode == 20000) {
           this.editForm = jsonResult.data;
           this.dialogFormVisible = true;
-        } else if (jsonResult.state == 40400) {
+        } else if (jsonResult.stateCode == 40400) {
           let title = '操作失敗';
           this.$alert(jsonResult.message, title, {
             confirmButtonText: '確定',
@@ -322,14 +322,14 @@ export default {
           .create({'headers': {'Authorization': localStorage.getItem('localJwt')}})
           .post(url, formData).then((response) => {
         let jsonResult = response.data;
-        if (jsonResult.state == 20000) {
+        if (jsonResult.stateCode == 20000) {
           this.$message({
             message: '修改類別成功！',
             type: 'success'
           });
           this.dialogFormVisible = false;
           this.loadCategoryList();
-        } else if (jsonResult.state == 40400) {
+        } else if (jsonResult.stateCode == 40400) {
           let title = '操作失敗';
           this.$alert(jsonResult.message, title, {
             confirmButtonText: '確定',
@@ -338,7 +338,7 @@ export default {
               this.loadCategoryList();
             }
           });
-        } else if (jsonResult.state == 40900) {
+        } else if (jsonResult.stateCode == 40900) {
           this.$message.error(jsonResult.message);
         } else {
           let title = '操作失敗';
@@ -380,13 +380,13 @@ export default {
           .create({'headers': {'Authorization': localStorage.getItem('localJwt')}})
           .post(url).then((response) => {
         let jsonResult = response.data;
-        if (jsonResult.state == 20000) {
+        if (jsonResult.stateCode == 20000) {
           this.$message({
             message: '刪除【' + category.name + '】類別成功！',
             type: 'success'
           });
           this.loadCategoryList();
-        } else if (jsonResult.state == 40400) {
+        } else if (jsonResult.stateCode == 40400) {
           let title = '操作失敗';
           this.$alert(jsonResult.message, title, {
             confirmButtonText: '確定',
@@ -422,7 +422,7 @@ export default {
           .create({'headers': {'Authorization': localStorage.getItem('localJwt')}})
           .get(url).then((response) => {
         let jsonResult = response.data;
-        if (jsonResult.state == 20000) {
+        if (jsonResult.stateCode == 20000) {
           this.tableData = jsonResult.data.list;
         } else {
           let title = '操作失敗';

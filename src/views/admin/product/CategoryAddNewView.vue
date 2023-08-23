@@ -124,7 +124,7 @@ export default {
               .post(url, formData).then((response) => {
             let jsonResult = response.data;
             console.log(jsonResult);
-            if (jsonResult.state == 20000) {
+            if (jsonResult.stateCode == 20000) {
               this.$message({
                 showClose: true,
                 message: '添加類別成功！',
@@ -168,7 +168,7 @@ export default {
           .create({'headers': {'Authorization': localStorage.getItem('localJwt')}})
           .get(url).then((response) => {
         let jsonResult = response.data;
-        if (jsonResult.state == 20000) {
+        if (jsonResult.stateCode == 20000) {
           this.parentCategoryOptions = jsonResult.data;
           this.parentCategoryOptions.unshift({
             value: 0,

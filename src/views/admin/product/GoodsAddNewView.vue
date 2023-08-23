@@ -146,7 +146,7 @@ export default {
               .create({'headers': {'Authorization': localStorage.getItem('localJwt')}})
               .post(url, formData).then((response) => {
             let jsonResult = response.data;
-            if (jsonResult.state == 20000) {
+            if (jsonResult.stateCode == 20000) {
               let message = '發佈商品成功！';
               this.$alert(message, '提示', {
                 confirmButtonText: '確定',
@@ -192,7 +192,7 @@ export default {
           .create({'headers': {'Authorization': localStorage.getItem('localJwt')}})
           .get(url).then((response) => {
         let jsonResult = response.data;
-        if (jsonResult.state == 20000) {
+        if (jsonResult.stateCode == 20000) {
           this.categoryOptions = jsonResult.data;
         } else {
           let title = '操作失敗';
