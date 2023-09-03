@@ -81,7 +81,7 @@ export default {
               localStorage.setItem("currentUserName",loginResult.username);
               localStorage.setItem("currentUserAvatar",loginResult.avatar);
 
-              this.$router.push('/');
+              this.$router.push('/admin/index');
             } else if (jsonResult.stateCode == 40100) {
               this.$message.error(jsonResult.message);
             } else {
