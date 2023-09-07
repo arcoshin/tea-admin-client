@@ -69,12 +69,12 @@
                 roleListOptions: [],
                 // 表單
                 ruleForm: {
-                    username: 'test-user-095',
+                    username: 'test-user-999',
                     password: '123456',
-                    nickname: '測試用戶095',
+                    nickname: '測試用戶999',
                     avatar: 'https://img2.baidu.com/it/u=4244269751,4000533845&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
-                    phone: '13700137095',
-                    email: '13700137001@163.com.95',
+                    phone: '13700137999',
+                    email: '13700137001@163.com.999',
                     description: '測試用戶的簡介',
                     enable: 1,
                     roleIds: []

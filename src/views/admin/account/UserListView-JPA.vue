@@ -15,6 +15,9 @@
             <el-button type="primary" size="medium"
                        @click="$router.push('/admin/account/users/add-new/jpa')">添加用戶(JPA)
             </el-button>
+            <el-button type="primary" size="medium"
+                       @click="downloadPDF()">下載資訊(JPA)
+            </el-button>
         </div>
 
         <!-- 數據表格 -->
@@ -35,18 +38,18 @@
                              :show-overflow-tooltip="true"></el-table-column>
             <el-table-column prop="description" label="簡介" header-align="center"
                              :show-overflow-tooltip="true"></el-table-column>
-            <el-table-column label="是否啓用" width="120" align="center">
-                <template slot-scope="scope">
-                    <el-switch
-                            @change="toggleEnable(scope.row)"
-                            v-model="scope.row.enable"
-                            :active-value="1"
-                            :inactive-value="0"
-                            active-color="#13ce66"
-                            inactive-color="#999">
-                    </el-switch>
-                </template>
-            </el-table-column>
+            <!--            <el-table-column label="是否啓用" width="120" align="center">-->
+            <!--                <template slot-scope="scope">-->
+            <!--                    <el-switch-->
+            <!--                            @change="toggleEnable(scope.row)"-->
+            <!--                            v-model="scope.row.enable"-->
+            <!--                            :active-value="1"-->
+            <!--                            :inactive-value="0"-->
+            <!--                            active-color="#13ce66"-->
+            <!--                            inactive-color="#999">-->
+            <!--                    </el-switch>-->
+            <!--                </template>-->
+            <!--            </el-table-column>-->
             <el-table-column label="操作" width="100" align="center">
                 <template v-slot="scope">
                     <el-button type="primary" icon="el-icon-edit" circle size="mini"
@@ -150,6 +153,24 @@
             }
         },
         methods: {
+            downloadPDF() {
+                let url = 'http://localhost:9080/account/download/autoGenerate/pdf/';
+                this.axios
+                    .create({'headers': {'Authorization': localStorage.getItem("localJwt")}})
+                    .get(url, {responseType: 'blob'})
+                    .then((response) => {
+                        const blob = new Blob([response.data], {type: 'application/pdf'});
+                        const link = document.createElement('a'); //自動開啟<a>標籤形成下載
+                        link.href = URL.createObjectURL(blob); //設置<a>標籤的href屬性
+                        link.download = 'list.pdf'; // 設置下載的文件名稱
+                        link.click(); // 觸發下載
+                        URL.revokeObjectURL(link.href);  // 清理和釋放 URL
+                    }).catch((error) => {
+                    console.error("Error during PDF download:", error);
+                });
+
+
+            },
             //切換啓用狀態
             toggleEnable(user) {
                 let enableText = ['禁用', '啓用'];
@@ -219,7 +240,7 @@
             },
             //執行修改用戶數據
             handleEdit() {
-                let url = 'http://localhost:9080/account/users/' + this.editForm.id + '/update/info';
+                let url = 'http://localhost:9080/account/tester/jpa/' + this.editForm.id + '/update/info';
                 console.log('url = ' + url);
                 let formData = this.qs.stringify(this.editForm);
                 console.log('formData = ' + formData);
@@ -270,7 +291,7 @@
             },
             //執行刪除用戶數據
             handleDelete(user) {
-                let url = 'http://localhost:9080/account/users/' + user.id + '/delete';
+                let url = 'http://localhost:9080/account/tester/jpa/' + user.id + '/delete';
                 console.log('url = ' + url);
 
                 this.axios
