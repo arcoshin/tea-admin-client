@@ -94,10 +94,24 @@
                             </el-menu-item>
                         </el-submenu>
                         <!-- 商品管理結束 -->
+                        <!-- Spring-Data-JPA測試專用模塊開始 -->
+                        <el-submenu index="jpa">
+                            <template slot="title">
+                                <i class="el-icon-s-shop"></i>
+                                <span>Spring-Data-JPA測試專用模塊</span>
+                            </template>
+                            <el-menu-item index="/admin/account/users/list/jpa">
+                                <i class="el-icon-user-solid"></i>
+                                <span slot="title">用戶管理(Spring-Data-JPA通道)</span>
+                            </el-menu-item>
+                        </el-submenu>
+                        <!-- Spring-Data-JPA測試專用模塊結束 -->
+                        <!-- 登入模塊開始 -->
                         <el-menu-item index="/login">
                             <i class="el-icon-menu"></i>
                             <span slot="title">登入</span>
                         </el-menu-item>
+                        <!-- 登入模塊結束 -->
                     </el-menu>
                 </el-aside>
                 <el-main class="tea-index-main">

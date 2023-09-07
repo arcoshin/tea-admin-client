@@ -28,6 +28,14 @@ const routes = [
                 path: '/admin/account/users/list',//(切記不可以"/"開頭，否則不會自動完成拼接)
                 component: () => import('../views/admin/account/UserListView.vue')
             },
+            {
+                path: '/admin/account/users/add-new/jpa',//(切記不可以"/"開頭，否則不會自動完成拼接)
+                component: () => import('../views/admin/account/UserAddNewView-JPA.vue')
+            },
+            {
+                path: '/admin/account/users/list/jpa',//(切記不可以"/"開頭，否則不會自動完成拼接)
+                component: () => import('../views/admin/account/UserListView-JPA.vue')
+            },
             /**
              * 內容管理
              */
