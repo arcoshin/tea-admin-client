@@ -206,7 +206,8 @@
                                 this.loadUserList();
                             }
                         });
-                    } else {
+                    }
+                    else {
                         this.$alert(jsonResult.message, '操作失敗', {
                             confirmButtonText: '確定',
                             callback: action => {
